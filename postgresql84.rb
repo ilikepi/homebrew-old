@@ -13,7 +13,8 @@ class Postgresql84 < Formula
   def options
     [
       ['--no-python', 'Build without Python support.'],
-      ['--no-perl', 'Build without Perl support.']
+      ['--no-perl', 'Build without Perl support.'],
+      ['--enable-dtrace', 'Build with DTrace support.']
     ]
   end
 
@@ -33,6 +34,7 @@ class Postgresql84 < Formula
 
     args << "--with-python" unless ARGV.include? '--no-python'
     args << "--with-perl" unless ARGV.include? '--no-perl'
+    args << "--enable-dtrace" unless ARGV.include? '--enable-dtrace'
 
     args << "--with-ossp-uuid"
 
