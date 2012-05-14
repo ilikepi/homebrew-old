@@ -1,6 +1,6 @@
 Homebrew-old
 ============
-Based on Homebrew/homebrew-versions, these formulae provide older
+Based on [Homebrew/homebrew-versions][orig] these formulae provide older
 versions of certain packages.
 
 How do I install these formulae?
@@ -21,4 +21,5 @@ Docs
 `brew help`, `man brew`, or the Homebrew [wiki][].
 
 [wiki]:http://wiki.github.com/mxcl/homebrew
+[orig]:https://github.com/Homebrew/homebrew-versions
 
