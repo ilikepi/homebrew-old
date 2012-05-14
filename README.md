@@ -16,6 +16,11 @@ You can also install via URL:
 brew install https://raw.github.com/ilikepi/homebrew-old/master/<formula>.rb
 ```
 
+Known Issues
+------------
+* The mysql50 formula is known not to compile on Lion
+* The postgresql84 formula does not have the latest patch release of 8.4
+
 Docs
 ----
 `brew help`, `man brew`, or the Homebrew [wiki][].
