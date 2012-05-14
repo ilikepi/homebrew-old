@@ -1,9 +1,9 @@
 require 'formula'
 
 class Mysql < Formula
-  homepage 'http://dev.mysql.com/doc/refman/5.1/en/'
-  url 'http://mysql.mirrors.pair.com/Downloads/MySQL-5.1/mysql-5.1.56.tar.gz'
-  md5 '15161d67f4830aad3a8a89e083749d49'
+  homepage 'http://dev.mysql.com/doc/refman/5.0/en/'
+  url 'http://downloads.mysql.com/archives/mysql-5.0/mysql-5.0.77.tar.gz'
+  md5 '6c30a20c9059daf053a301e927eb1667'
 
   depends_on 'readline'
 
@@ -40,7 +40,7 @@ class Mysql < Formula
       "--prefix=#{prefix}",
       "--localstatedir=#{var}/mysql",
       "--sysconfdir=#{etc}",
-      "--with-plugins=innobase,myisam",
+      "--with-innodb",
       "--with-extra-charsets=complex",
       "--with-ssl",
       "--without-readline", # Confusingly, means "use detected readline instead of included readline"
