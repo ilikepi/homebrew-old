@@ -1,6 +1,6 @@
 require 'formula'
 
-class Mysql < Formula
+class Mysql50 < Formula
   homepage 'http://dev.mysql.com/doc/refman/5.0/en/'
   url 'http://downloads.mysql.com/archives/mysql-5.0/mysql-5.0.77.tar.gz'
   md5 '6c30a20c9059daf053a301e927eb1667'
