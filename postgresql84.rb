@@ -70,6 +70,7 @@ class Postgresql84 < Formula
     end
 
     (prefix+'org.postgresql.postgres.plist').write startup_plist
+    (prefix+'org.postgresql.postgres.plist').chmod 0644
   end
 
   def check_python_arch
