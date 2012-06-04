@@ -43,7 +43,7 @@ class Postgis14 < Formula
   end
 
   def caveats; <<-EOS.undent
-    Postgresql 9.0 is not supported by PostGis 1.4.
+      Postgresql 9.0 is not supported by PostGis 1.4.
 
       To create a spatially-enabled database, see the documentation:
         http://postgis.refractions.net/documentation/manual-1.4/ch02.html#id2754935
