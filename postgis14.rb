@@ -1,6 +1,6 @@
 require 'formula'
 
-class Postgis <Formula
+class Postgis < Formula
   url 'http://postgis.refractions.net/download/postgis-1.4.1.tar.gz'
   homepage 'http://postgis.refractions.net/'
   md5 '78d13c4294f3336502ad35c8a30e5583'
