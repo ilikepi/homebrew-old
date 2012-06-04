@@ -11,9 +11,14 @@ class Postgis <Formula
 
   def install
     ENV.deparallelize
-    system "./configure", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}",
-                          "--with-projdir=#{HOMEBREW_PREFIX}"
+
+    args = [
+      "--disable-dependency-tracking",
+      "--prefix=#{prefix}",
+      "--with-projdir=#{HOMEBREW_PREFIX}"
+    ]
+
+    system "./configure", *args
     system "make install"
 
     # Copy some of the generated files to the share folder
