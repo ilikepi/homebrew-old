@@ -20,4 +20,11 @@ class Postgis <Formula
     bin.install %w( loader/pgsql2shp loader/shp2pgsql utils/new_postgis_restore.pl utils/postgis_proc_upgrade.pl utils/postgis_restore.pl utils/profile_intersects.pl )
 
   end
+
+  def caveats
+    <<-EOS.undent
+      To create a spatially-enabled database, see the documentation:
+        http://postgis.refractions.net/documentation/manual-1.4/ch02.html#id2754935
+    EOS
+  end
 end
