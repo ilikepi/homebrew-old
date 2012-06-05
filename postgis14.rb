@@ -1,16 +1,34 @@
 require 'formula'
 
+def pg_formula
+  pg_args = ARGV.options.only.select { |v| v =~ /--postgres=/ }.uniq
+
+  if pg_args.nil?
+    return Formula.factory 'postgresql'
+  else
+    # An exception will be thrown if the formula specified isn't valid.
+    return Formula.factory pg_args.last.split('=')[1]
+  end
+end
+
 class Postgis14 < Formula
   url 'http://postgis.refractions.net/download/postgis-1.4.1.tar.gz'
   homepage 'http://postgis.refractions.net/'
   md5 '78d13c4294f3336502ad35c8a30e5583'
 
-  depends_on 'postgresql'
+  depends_on pg_formula.name
   depends_on 'proj'
   depends_on 'geos'
 
+  def options
+    [
+      ['--postgres=PGNAME', 'Build against the named PostgreSQL formula']
+    ]
+  end
+
   def install
     ENV.deparallelize
+    postgresql = pg_formula
 
     args = [
       "--disable-dependency-tracking",
@@ -20,7 +38,7 @@ class Postgis14 < Formula
 
     # Apple ship a postgres client in Lion, conflicts with installed PostgreSQL server.
     if MacOS.lion?
-      postgresql = Formula.factory('postgresql')
+      postgresql = pg_formula
       args << "--with-pgconfig=#{postgresql.bin}/pg_config"
     end
 
