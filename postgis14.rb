@@ -20,6 +20,10 @@ class Postgis14 < Formula
   depends_on 'proj'
   depends_on 'geos'
 
+  # PostGIS command line tools intentionally have unused symbols in
+  # them---these are callbacks for liblwgeom.
+  skip_clean :all
+
   def options
     [
       ['--postgres=PGNAME', 'Build against the named PostgreSQL formula']
@@ -32,39 +36,74 @@ class Postgis14 < Formula
 
     args = [
       "--disable-dependency-tracking",
-      "--prefix=#{prefix}",
-      "--with-projdir=#{HOMEBREW_PREFIX}"
+      # Can't use --prefix, PostGIS disrespects it and flat-out refuses to
+      # accept it with 2.0. We specify a staging path manually when running
+      # 'make install'.
+      "--with-projdir=#{HOMEBREW_PREFIX}",
+      # This is against Homebrew guidelines, but we have to do it as the
+      # PostGIS plugin libraries can only be properly inserted into Homebrew's
+      # Postgresql keg.
+      "--with-pgconfig=#{postgresql.bin}/pg_config",
+      # Unfortunately, NLS support causes all kinds of headaches because
+      # PostGIS gets all of it's compiler flags from the PGXS makefiles. This
+      # makes it nigh impossible to tell the buildsystem where our keg-only
+      # gettext installations are.
+      "--disable-nls"
     ]
 
-    # Apple ship a postgres client in Lion, conflicts with installed PostgreSQL server.
-    if MacOS.lion?
-      postgresql = pg_formula
-      args << "--with-pgconfig=#{postgresql.bin}/pg_config"
-    end
-
     system "./configure", *args
-    system "make install"
+    system "make"
 
-    # Copy some of the generated files to the share folder
-    (share+'postgis').install %w(
-      spatial_ref_sys.sql postgis/postgis.sql
-      postgis/postgis_upgrade.sql
-      postgis/uninstall_postgis.sql
-    )
-    # Copy loader and utils binaries to bin folder
-    bin.install %w(
-      loader/pgsql2shp loader/shp2pgsql
-      utils/new_postgis_restore.pl utils/postgis_proc_upgrade.pl
-      utils/postgis_restore.pl utils/profile_intersects.pl
-    )
+    # PostGIS includes the PGXS makefiles and so will install __everything__
+    # into the Postgres keg instead of the PostGIS keg. Unfortunately, some
+    # things have to be inside the Postgres keg in order to be function. So, we
+    # install everything to a staging directory and manually move the pieces
+    # into the appropriate prefixes.
+    mkdir 'stage'
+    system 'make', 'install', "DESTDIR=#{buildpath}/stage"
 
+    # Install PostGIS plugin libraries into the Postgres keg so that they can
+    # be loaded and so PostGIS databases will continue to function even if
+    # PostGIS is removed.
+    postgresql.lib.install Dir['stage/**/*.so']
+
+    bin.install Dir['stage/**/bin/*']
+    # In PostGIS 1.4, only one file is installed under lib, and we have
+    # already moved it to postgresql.lib in an earlier step.
+    #lib.install Dir['stage/**/lib/*']
+
+    # Stand-alone SQL files will be installed the share folder
+    (share + 'postgis').install Dir['stage/**/contrib/*']
+
+    # Extension scripts
+    bin.install %w[
+      utils/create_undef.pl
+      utils/new_postgis_restore.pl
+      utils/postgis_proc_upgrade.pl
+      utils/postgis_restore.pl
+      utils/profile_intersects.pl
+      utils/test_estimation.pl
+      utils/test_joinestimation.pl
+    ]
+
+    man1.install Dir['doc/**/*.1']
   end
 
-  def caveats; <<-EOS.undent
+  def caveats
+    postgresql = pg_formula
+
+    <<-EOS.undent
       Postgresql 9.0 is not supported by PostGis 1.4.
 
       To create a spatially-enabled database, see the documentation:
         http://postgis.refractions.net/documentation/manual-1.4/ch02.html#id2754935
+      and to upgrade your existing spatial databases, see here:
+        http://postgis.refractions.net/documentation/manual-1.4/ch02.html#upgrading
+
+      PostGIS SQL scripts installed to:
+        #{HOMEBREW_PREFIX}/share/postgis
+      PostGIS plugin libraries installed to:
+        #{postgresql.lib}
     EOS
   end
 end
