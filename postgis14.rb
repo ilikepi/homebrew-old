@@ -1,7 +1,7 @@
 require 'formula'
 
 def pg_formula
-  pg_args = ARGV.options.only.select { |v| v =~ /--postgres=/ }.uniq
+  pg_args = ARGV.options_only.select { |v| v =~ /--postgres=/ }.uniq
 
   if pg_args.nil?
     return Formula.factory 'postgresql'
