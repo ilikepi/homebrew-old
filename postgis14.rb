@@ -3,7 +3,7 @@ require 'formula'
 def pg_formula
   pg_args = ARGV.options_only.select { |v| v =~ /--postgres=/ }.uniq
 
-  if pg_args.nil?
+  if pg_args.empty?
     return Formula.factory 'postgresql'
   else
     # An exception will be thrown if the formula specified isn't valid.
