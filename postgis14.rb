@@ -5,6 +5,8 @@ class Postgis14 < Formula
   homepage 'http://postgis.refractions.net/'
   sha1 'e30062d6e38f787374866a6f4bc2920e032bc0e7'
 
+  keg_only "Conflicts with postgis in main repository."
+
   depends_on 'postgresql8'
   depends_on 'proj'
   depends_on 'geos'
