@@ -14,7 +14,7 @@ end
 class Postgis14 < Formula
   url 'http://postgis.refractions.net/download/postgis-1.4.1.tar.gz'
   homepage 'http://postgis.refractions.net/'
-  md5 '78d13c4294f3336502ad35c8a30e5583'
+  sha1 'e30062d6e38f787374866a6f4bc2920e032bc0e7'
 
   depends_on pg_formula.name
   depends_on 'proj'
