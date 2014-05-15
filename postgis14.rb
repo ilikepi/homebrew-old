@@ -1,34 +1,17 @@
 require 'formula'
 
-def pg_formula
-  pg_args = ARGV.options_only.select { |v| v =~ /--postgres=/ }.uniq
-
-  if pg_args.empty?
-    return Formula.factory 'postgresql'
-  else
-    # An exception will be thrown if the formula specified isn't valid.
-    return Formula.factory pg_args.last.split('=')[1]
-  end
-end
-
 class Postgis14 < Formula
   url 'http://postgis.refractions.net/download/postgis-1.4.1.tar.gz'
   homepage 'http://postgis.refractions.net/'
   sha1 'e30062d6e38f787374866a6f4bc2920e032bc0e7'
 
-  depends_on pg_formula.name
+  depends_on 'postgresql8'
   depends_on 'proj'
   depends_on 'geos'
 
-  def options
-    [
-      ['--postgres=PGNAME', 'Build against the named PostgreSQL formula']
-    ]
-  end
-
   def install
     ENV.deparallelize
-    postgresql = pg_formula
+    postgresql = Formula['postgresql8']
 
     args = [
       "--disable-dependency-tracking",
@@ -86,7 +69,7 @@ class Postgis14 < Formula
   end
 
   def caveats
-    postgresql = pg_formula
+    postgresql = Formula['postgresql8']
 
     <<-EOS.undent
       Postgresql 9.0 is not supported by PostGis 1.4.
