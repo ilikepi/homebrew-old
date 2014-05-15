@@ -20,10 +20,6 @@ class Postgis14 < Formula
   depends_on 'proj'
   depends_on 'geos'
 
-  # PostGIS command line tools intentionally have unused symbols in
-  # them---these are callbacks for liblwgeom.
-  skip_clean :all
-
   def options
     [
       ['--postgres=PGNAME', 'Build against the named PostgreSQL formula']
