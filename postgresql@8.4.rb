@@ -68,9 +68,8 @@ class PostgresqlAT84 < Formula
       ENV.append "LIBS", `uuid-config --libs`.strip
     end
 
-    if MacOS.prefer_64_bit? and build.with? "python"
+    if build.with? "python"
       args << "ARCHFLAGS='-arch x86_64'"
-      check_python_arch
     end
 
     system "./configure", *args
@@ -84,33 +83,8 @@ class PostgresqlAT84 < Formula
     end
   end
 
-  def check_python_arch
-    # On 64-bit systems, we need to look for a 32-bit Framework Python.
-    # The configure script prefers this Python version, and if it doesn't
-    # have 64-bit support then linking will fail.
-    framework_python = Pathname.new "/Library/Frameworks/Python.framework/Versions/Current/Python"
-    return unless framework_python.exist?
-    unless (archs_for_command framework_python).include? :x86_64
-      opoo "Detected a framework Python that does not have 64-bit support in:"
-      puts <<~EOS
-          #{framework_python}
-
-        The configure script seems to prefer this version of Python over any others,
-        so you may experience linker problems as described in:
-          http://osdir.com/ml/pgsql-general/2009-09/msg00160.html
-
-        To fix this issue, you may need to either delete the version of Python
-        shown above, or move it out of the way before brewing PostgreSQL.
-
-        Note that a framework Python in /Library/Frameworks/Python.framework is
-        the "MacPython" verison, and not the system-provided version which is in:
-          /System/Library/Frameworks/Python.framework
-      EOS
-    end
-  end
-
   def caveats
-    s = <<~EOS
+    <<~EOS
       To build plpython against a specific Python, set PYTHON prior to brewing:
         PYTHON=/usr/local/bin/python brew install #{name}
       See:
@@ -119,17 +93,12 @@ class PostgresqlAT84 < Formula
 
       If this is your first install, create a database with:
           initdb #{var}/postgres
+
+      When installing the postgres gem, including ARCHFLAGS is recommended:
+        ARCHFLAGS="-arch x86_64" gem install pg
+
+      To install gems without sudo, see the Homebrew wiki.
     EOS
-
-    if MacOS.prefer_64_bit?
-      s << "\n" << <<~EOS
-        When installing the postgres gem, including ARCHFLAGS is recommended:
-          ARCHFLAGS="-arch x86_64" gem install pg
-
-        To install gems without sudo, see the Homebrew wiki.
-      EOS
-    end
-    s
   end
 
   plist_options :manual => "pg_ctl -D #{HOMEBREW_PREFIX}/var/#{name} -l #{HOMEBREW_PREFIX}/var/#{name}/server.log start"
