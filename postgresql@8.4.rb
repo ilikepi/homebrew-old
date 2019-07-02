@@ -132,7 +132,7 @@ class PostgresqlAT84 < Formula
     s
   end
 
-  plist_options :manual => "pg_ctl -D #{HOMEBREW_PREFIX}/var/postgres -l #{HOMEBREW_PREFIX}/var/postgres/server.log start"
+  plist_options :manual => "pg_ctl -D #{HOMEBREW_PREFIX}/var/#{name} -l #{HOMEBREW_PREFIX}/var/#{name}/server.log start"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>
