@@ -33,8 +33,6 @@ class PostgresqlAT84 < Formula
   patch :DATA
 
   def install
-    ENV.libxml2 if MacOS.version >= :snow_leopard
-
     args = %W[
       --disable-debug
       --prefix=#{prefix}
