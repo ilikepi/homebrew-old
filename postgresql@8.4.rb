@@ -1,7 +1,7 @@
 class PostgresqlAT84 < Formula
   desc "Object-relational database system"
-  homepage "http://www.postgresql.org/"
-  url "http://ftp.postgresql.org/pub/source/v8.4.22/postgresql-8.4.22.tar.bz2"
+  homepage "https://www.postgresql.org/"
+  url "https://ftp.postgresql.org/pub/source/v8.4.22/postgresql-8.4.22.tar.bz2"
   sha256 "5c1d56ce77448706d9dd03b2896af19d9ab1b9b8dcdb96c39707c74675ca3826"
 
   bottle do
@@ -109,7 +109,7 @@ class PostgresqlAT84 < Formula
       To build plpython against a specific Python, set PYTHON prior to brewing:
         PYTHON=/usr/local/bin/python brew install postgresql
       See:
-        http://www.postgresql.org/docs/8.4/static/install-procedure.html
+        https://www.postgresql.org/docs/8.4/static/install-procedure.html
 
 
       If this is your first install, create a database with:
