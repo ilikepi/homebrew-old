@@ -10,6 +10,8 @@ class PostgresqlAT84 < Formula
     sha256 "4ac58e1036d1a0848b1642542b293c4299c44bd34b9c1aeb931a7404556b1798" => :mountain_lion
   end
 
+  keg_only :versioned_formula
+
   depends_on "openssl"
   depends_on "readline"
   depends_on "libxml2" if MacOS.version == :leopard
@@ -23,6 +25,9 @@ class PostgresqlAT84 < Formula
   deprecated_option "no-perl" => "without-perl"
   deprecated_option "no-tcl" => "without-tcl"
 
+  conflicts_with "postgresql",
+    :because => "Differing versions of the same formula."
+
   # Fix build on 10.8 Mountain Lion
   # https://github.com/mxcl/homebrew/commit/cd77baf2e2f75b4ae141414bf8ff6d5c732e2b9a
   patch :DATA
@@ -33,7 +38,7 @@ class PostgresqlAT84 < Formula
     args = %W[
       --disable-debug
       --prefix=#{prefix}
-      --datadir=#{share}/#{name}
+      --datadir=#{pkgshare}
       --docdir=#{doc}
       --enable-thread-safety
       --with-gssapi
@@ -107,7 +112,7 @@ class PostgresqlAT84 < Formula
   def caveats
     s = <<-EOS.undent
       To build plpython against a specific Python, set PYTHON prior to brewing:
-        PYTHON=/usr/local/bin/python brew install postgresql
+        PYTHON=/usr/local/bin/python brew install #{name}
       See:
         https://www.postgresql.org/docs/8.4/static/install-procedure.html
 
@@ -142,9 +147,9 @@ class PostgresqlAT84 < Formula
       <array>
         <string>#{opt_prefix}/bin/postgres</string>
         <string>-D</string>
-        <string>#{var}/postgres</string>
+        <string>#{var}/#{name}</string>
         <string>-r</string>
-        <string>#{var}/postgres/server.log</string>
+        <string>#{var}/#{name}/server.log</string>
       </array>
       <key>RunAtLoad</key>
       <true/>
