@@ -92,7 +92,7 @@ class PostgresqlAT84 < Formula
 
 
       If this is your first install, create a database with:
-          initdb #{var}/postgres
+          initdb #{var}/#{name}
 
       When installing the postgres gem, including ARCHFLAGS is recommended:
         ARCHFLAGS="-arch x86_64" gem install pg
@@ -101,7 +101,7 @@ class PostgresqlAT84 < Formula
     EOS
   end
 
-  plist_options :manual => "pg_ctl -D #{HOMEBREW_PREFIX}/var/#{name} -l #{HOMEBREW_PREFIX}/var/#{name}/server.log start"
+  plist_options :manual => "pg_ctl -D #{HOMEBREW_PREFIX}/var/postgresql@8.4 -l #{HOMEBREW_PREFIX}/var/postgresql@8.4/server.log start"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>
