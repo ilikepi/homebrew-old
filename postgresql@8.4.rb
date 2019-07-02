@@ -92,7 +92,7 @@ class PostgresqlAT84 < Formula
     return unless framework_python.exist?
     unless (archs_for_command framework_python).include? :x86_64
       opoo "Detected a framework Python that does not have 64-bit support in:"
-      puts <<-EOS.undent
+      puts <<~EOS
           #{framework_python}
 
         The configure script seems to prefer this version of Python over any others,
@@ -110,7 +110,7 @@ class PostgresqlAT84 < Formula
   end
 
   def caveats
-    s = <<-EOS.undent
+    s = <<~EOS
       To build plpython against a specific Python, set PYTHON prior to brewing:
         PYTHON=/usr/local/bin/python brew install #{name}
       See:
@@ -122,7 +122,7 @@ class PostgresqlAT84 < Formula
     EOS
 
     if MacOS.prefer_64_bit?
-      s << "\n" << <<-EOS.undent
+      s << "\n" << <<~EOS
         When installing the postgres gem, including ARCHFLAGS is recommended:
           ARCHFLAGS="-arch x86_64" gem install pg
 
@@ -134,7 +134,7 @@ class PostgresqlAT84 < Formula
 
   plist_options :manual => "pg_ctl -D #{HOMEBREW_PREFIX}/var/postgres -l #{HOMEBREW_PREFIX}/var/postgres/server.log start"
 
-  def plist; <<-EOS.undent
+  def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
     <plist version="1.0">
