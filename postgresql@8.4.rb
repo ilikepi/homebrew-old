@@ -81,6 +81,14 @@ class PostgresqlAT84 < Formula
     end
   end
 
+  def post_install
+    (var/"log").mkpath
+    (var/name).mkpath
+    unless File.exist? "#{var}/#{name}/PG_VERSION"
+      system "#{bin}/initdb", "#{var}/#{name}"
+    end
+  end
+
   def caveats
     <<~EOS
       To build plpython against a specific Python, set PYTHON prior to brewing:
