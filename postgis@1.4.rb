@@ -3,11 +3,14 @@ class PostgisAT14 < Formula
   homepage 'https://postgis.net/'
   sha256 '17d96c59e1653d7441c98ba0762b55cae3dc22f51e897294d3262dee22ba0a50'
 
-  keg_only "Conflicts with postgis in main repository."
+  keg_only :versioned_formula
 
   depends_on 'postgresql8'
   depends_on 'proj'
   depends_on 'geos'
+
+  conflicts_with "postgis",
+    :because => "Conflicts with postgis in main repository."
 
   def install
     ENV.deparallelize
