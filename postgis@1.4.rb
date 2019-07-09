@@ -1,6 +1,6 @@
 class PostgisAT14 < Formula
-  url 'http://postgis.refractions.net/download/postgis-1.4.1.tar.gz'
-  homepage 'http://postgis.refractions.net/'
+  url 'https://postgis.net/download/postgis-1.4.1.tar.gz'
+  homepage 'https://postgis.net/'
   sha256 '17d96c59e1653d7441c98ba0762b55cae3dc22f51e897294d3262dee22ba0a50'
 
   keg_only "Conflicts with postgis in main repository."
@@ -75,9 +75,9 @@ class PostgisAT14 < Formula
       Postgresql 9.0 is not supported by PostGis 1.4.
 
       To create a spatially-enabled database, see the documentation:
-        http://postgis.refractions.net/documentation/manual-1.4/ch02.html#id2754935
+        https://postgis.net/documentation/manual-1.4/ch02.html#id2754935
       and to upgrade your existing spatial databases, see here:
-        http://postgis.refractions.net/documentation/manual-1.4/ch02.html#upgrading
+        https://postgis.net/documentation/manual-1.4/ch02.html#upgrading
 
       PostGIS SQL scripts installed to:
         #{HOMEBREW_PREFIX}/share/postgis
