@@ -1,4 +1,4 @@
-class Postgis14 < Formula
+class PostgisAT14 < Formula
   url 'http://postgis.refractions.net/download/postgis-1.4.1.tar.gz'
   homepage 'http://postgis.refractions.net/'
   sha256 '17d96c59e1653d7441c98ba0762b55cae3dc22f51e897294d3262dee22ba0a50'
