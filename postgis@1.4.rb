@@ -45,15 +45,9 @@ class PostgisAT14 < Formula
     mkdir 'stage'
     system 'make', 'install', "DESTDIR=#{buildpath}/stage"
 
-    # Install PostGIS plugin libraries into the Postgres keg so that they can
-    # be loaded and so PostGIS databases will continue to function even if
-    # PostGIS is removed.
-    postgresql.lib.install Dir['stage/**/*.so']
+    lib.install Dir['stage/**/*.so']
 
     bin.install Dir['stage/**/bin/*']
-    # In PostGIS 1.4, only one file is installed under lib, and we have
-    # already moved it to postgresql.lib in an earlier step.
-    #lib.install Dir['stage/**/lib/*']
 
     # Stand-alone SQL files will be installed the share folder
     (share + name).install Dir['stage/**/contrib/*']
@@ -73,8 +67,6 @@ class PostgisAT14 < Formula
   end
 
   def caveats
-    postgresql = Formula['postgresql@8.4']
-
     <<-EOS.undent
       Postgresql 9.0 is not supported by PostGis 1.4.
 
@@ -86,7 +78,7 @@ class PostgisAT14 < Formula
       PostGIS SQL scripts installed to:
         #{share}/#{name}
       PostGIS plugin libraries installed to:
-        #{postgresql.lib}
+        #{lib}
     EOS
   end
 end
