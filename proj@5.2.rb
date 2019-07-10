@@ -23,7 +23,7 @@ class ProjAT52 < Formula
   option "with-vdatum", "Install vertical datum files (~380 MB)"
 
   conflicts_with "proj",
-    :because => "Conflicts with proj in main repository."
+    :because => "this is an alternate version of another formula."
 
   conflicts_with "blast", :because => "both install a `libproj.a` library"
 

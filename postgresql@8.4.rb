@@ -26,7 +26,7 @@ class PostgresqlAT84 < Formula
   deprecated_option "no-tcl" => "without-tcl"
 
   conflicts_with "postgresql",
-    :because => "Differing versions of the same formula."
+    :because => "this is an alternate version of another formula."
 
   # Fix build on 10.8 Mountain Lion
   # https://github.com/mxcl/homebrew/commit/cd77baf2e2f75b4ae141414bf8ff6d5c732e2b9a

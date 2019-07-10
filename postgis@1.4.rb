@@ -10,7 +10,7 @@ class PostgisAT14 < Formula
   depends_on 'geos'
 
   conflicts_with "postgis",
-    :because => "Conflicts with postgis in main repository."
+    :because => "this is an alternate version of another formula."
 
   def install
     ENV.deparallelize
