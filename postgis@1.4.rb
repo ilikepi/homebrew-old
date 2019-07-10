@@ -55,7 +55,7 @@ class PostgisAT14 < Formula
     #lib.install Dir['stage/**/lib/*']
 
     # Stand-alone SQL files will be installed the share folder
-    (share + 'postgis').install Dir['stage/**/contrib/*']
+    (share + name).install Dir['stage/**/contrib/*']
 
     # Extension scripts
     bin.install %w[
@@ -83,7 +83,7 @@ class PostgisAT14 < Formula
         https://postgis.net/documentation/manual-1.4/ch02.html#upgrading
 
       PostGIS SQL scripts installed to:
-        #{HOMEBREW_PREFIX}/share/postgis
+        #{share}/#{name}
       PostGIS plugin libraries installed to:
         #{postgresql.lib}
     EOS
