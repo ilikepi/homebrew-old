@@ -6,7 +6,7 @@ class PostgisAT14 < Formula
   keg_only :versioned_formula
 
   depends_on 'postgresql8'
-  depends_on 'proj'
+  depends_on 'proj@5.2'
   depends_on 'geos'
 
   conflicts_with "postgis",
@@ -15,13 +15,14 @@ class PostgisAT14 < Formula
   def install
     ENV.deparallelize
     postgresql = Formula['postgresql8']
+    proj       = Formula['proj@5.2']
 
     args = [
       "--disable-dependency-tracking",
       # Can't use --prefix, PostGIS disrespects it and flat-out refuses to
       # accept it with 2.0. We specify a staging path manually when running
       # 'make install'.
-      "--with-projdir=#{HOMEBREW_PREFIX}",
+      "--with-projdir=#{proj.opt_prefix}",
       # This is against Homebrew guidelines, but we have to do it as the
       # PostGIS plugin libraries can only be properly inserted into Homebrew's
       # Postgresql keg.
