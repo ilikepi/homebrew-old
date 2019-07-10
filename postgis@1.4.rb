@@ -5,7 +5,7 @@ class PostgisAT14 < Formula
 
   keg_only :versioned_formula
 
-  depends_on 'postgresql8'
+  depends_on 'postgresql@8.4'
   depends_on 'proj@5.2'
   depends_on 'geos'
 
@@ -14,7 +14,7 @@ class PostgisAT14 < Formula
 
   def install
     ENV.deparallelize
-    postgresql = Formula['postgresql8']
+    postgresql = Formula['postgresql@8.4']
     proj       = Formula['proj@5.2']
 
     args = [
@@ -73,7 +73,7 @@ class PostgisAT14 < Formula
   end
 
   def caveats
-    postgresql = Formula['postgresql8']
+    postgresql = Formula['postgresql@8.4']
 
     <<-EOS.undent
       Postgresql 9.0 is not supported by PostGis 1.4.
