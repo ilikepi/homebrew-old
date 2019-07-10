@@ -1,5 +1,5 @@
 class PostgisAT14 < Formula
-  url 'https://postgis.net/download/postgis-1.4.1.tar.gz'
+  url 'http://download.osgeo.org/postgis/source/postgis-1.4.1.tar.gz'
   homepage 'https://postgis.net/'
   sha256 '17d96c59e1653d7441c98ba0762b55cae3dc22f51e897294d3262dee22ba0a50'
 
