@@ -49,7 +49,11 @@ class PostgisAT14 < Formula
 
     bin.install Dir['stage/**/bin/*']
 
-    # Stand-alone SQL files will be installed the share folder
+    # Stand-alone SQL files will be installed the share folder. but certain
+    # ones need to be tweaked first to have the correct path to the .so files.
+    Dir['stage/**/contrib/postgis*.sql'].each do |script|
+      inreplace script, '$libdir', lib
+    end
     (share + name).install Dir['stage/**/contrib/*']
 
     # Extension scripts
