@@ -71,7 +71,7 @@ class PostgisAT14 < Formula
   end
 
   def caveats
-    <<-EOS.undent
+    <<~EOS
       Postgresql 9.0 is not supported by PostGis 1.4.
 
       To create a spatially-enabled database, see the documentation:
