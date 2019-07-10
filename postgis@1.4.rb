@@ -1,24 +1,28 @@
-class Postgis14 < Formula
-  url 'http://postgis.refractions.net/download/postgis-1.4.1.tar.gz'
-  homepage 'http://postgis.refractions.net/'
+class PostgisAT14 < Formula
+  url 'http://download.osgeo.org/postgis/source/postgis-1.4.1.tar.gz'
+  homepage 'https://postgis.net/'
   sha256 '17d96c59e1653d7441c98ba0762b55cae3dc22f51e897294d3262dee22ba0a50'
 
-  keg_only "Conflicts with postgis in main repository."
+  keg_only :versioned_formula
 
-  depends_on 'postgresql8'
-  depends_on 'proj'
+  depends_on 'postgresql@8.4'
+  depends_on 'proj@5.2'
   depends_on 'geos'
+
+  conflicts_with "postgis",
+    :because => "this is an alternate version of another formula."
 
   def install
     ENV.deparallelize
-    postgresql = Formula['postgresql8']
+    postgresql = Formula['postgresql@8.4']
+    proj       = Formula['proj@5.2']
 
     args = [
       "--disable-dependency-tracking",
       # Can't use --prefix, PostGIS disrespects it and flat-out refuses to
       # accept it with 2.0. We specify a staging path manually when running
       # 'make install'.
-      "--with-projdir=#{HOMEBREW_PREFIX}",
+      "--with-projdir=#{proj.opt_prefix}",
       # This is against Homebrew guidelines, but we have to do it as the
       # PostGIS plugin libraries can only be properly inserted into Homebrew's
       # Postgresql keg.
@@ -41,18 +45,16 @@ class Postgis14 < Formula
     mkdir 'stage'
     system 'make', 'install', "DESTDIR=#{buildpath}/stage"
 
-    # Install PostGIS plugin libraries into the Postgres keg so that they can
-    # be loaded and so PostGIS databases will continue to function even if
-    # PostGIS is removed.
-    postgresql.lib.install Dir['stage/**/*.so']
+    lib.install Dir['stage/**/*.so']
 
     bin.install Dir['stage/**/bin/*']
-    # In PostGIS 1.4, only one file is installed under lib, and we have
-    # already moved it to postgresql.lib in an earlier step.
-    #lib.install Dir['stage/**/lib/*']
 
-    # Stand-alone SQL files will be installed the share folder
-    (share + 'postgis').install Dir['stage/**/contrib/*']
+    # Stand-alone SQL files will be installed the share folder. but certain
+    # ones need to be tweaked first to have the correct path to the .so files.
+    Dir['stage/**/contrib/postgis*.sql'].each do |script|
+      inreplace script, '$libdir', lib
+    end
+    (share + name).install Dir['stage/**/contrib/*']
 
     # Extension scripts
     bin.install %w[
@@ -69,20 +71,18 @@ class Postgis14 < Formula
   end
 
   def caveats
-    postgresql = Formula['postgresql8']
-
-    <<-EOS.undent
+    <<~EOS
       Postgresql 9.0 is not supported by PostGis 1.4.
 
       To create a spatially-enabled database, see the documentation:
-        http://postgis.refractions.net/documentation/manual-1.4/ch02.html#id2754935
+        https://postgis.net/documentation/manual-1.4/ch02.html#id2754935
       and to upgrade your existing spatial databases, see here:
-        http://postgis.refractions.net/documentation/manual-1.4/ch02.html#upgrading
+        https://postgis.net/documentation/manual-1.4/ch02.html#upgrading
 
       PostGIS SQL scripts installed to:
-        #{HOMEBREW_PREFIX}/share/postgis
+        #{share}/#{name}
       PostGIS plugin libraries installed to:
-        #{postgresql.lib}
+        #{lib}
     EOS
   end
 end
