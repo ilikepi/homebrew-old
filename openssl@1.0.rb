@@ -1,6 +1,3 @@
-# This formula tracks 1.0.2 branch of OpenSSL, not the 1.1.0 branch. Due to
-# significant breaking API changes in 1.1.0 other formulae will be migrated
-# across slowly, so core will ship `openssl` & `openssl@1.1` for foreseeable.
 class OpensslAT10 < Formula
   desc "SSL/TLS cryptography library"
   homepage "https://openssl.org/"
