@@ -12,7 +12,7 @@ class PostgresqlAT84 < Formula
 
   keg_only :versioned_formula
 
-  depends_on "openssl"
+  depends_on "openssl@1.0"
   depends_on "readline"
   depends_on "libxml2" if MacOS.version == :leopard
   depends_on "ossp-uuid" => :recommended
